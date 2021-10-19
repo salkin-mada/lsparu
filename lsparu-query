@@ -1,0 +1,144 @@
+#!/bin/bash
+# ------------------------------------------------------------------
+# This script is part of lsparu
+# Created: 2021-10-19, version 0.0.1
+# Copysomething (C?) 2021 Niklas Adam
+# Email: 	salkinmada@protonmail.com
+# URL:	https://niklasadam.oddodd.org
+# ------------------------------------------------------------------
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# ------------------------------------------------------------------
+
+version=0.0.1
+usage="usage: lsparu-query -sm {args}"
+margin=2,3 # default margin
+
+while getopts s:m: option
+    do
+    case "${option}" in
+        s | style) style=${OPTARG}
+            ;;
+        m | margin) margin=${OPTARG}
+            ;;
+        *)
+            echo $usage
+            exit 0
+            ;;
+    esac
+done
+
+default_colors() {
+    header=#fabd2f
+    bg=#1d2021
+    bgp=#504945
+    fg=#fe8019
+    fgp=#fabd2f
+    previewbg=#1d2001
+    previewfg=#b8bb26
+    info=#83a598
+    border=#fb4934
+    spinner=#fe8019
+    hl=#83a598
+    hlp=#8ec07c
+    pointer=#fb4934
+    prompt=#fb4934
+    gutter=#3c3836
+    marker=#fb4934
+}
+
+light_colors() {
+    header=#fe5009
+    bg=#ebdbb2
+    bgp=#d5c4a1
+    fg=#000000
+    fgp=#504945
+    previewbg=#8ec07c
+    previewfg=#000000
+    info=#665c54
+    border=#d3869b
+    spinner=#fe8019
+    hl=#1102aa
+    hlp=#1102fb
+    pointer=#fe5009
+    prompt=#b8bb26
+    gutter=#8ec07c
+    marker=#1f92fb
+}
+
+mono_colors() {
+    header=#a1efe4
+    bg=#272822
+    bgp=#223aa2
+    fg=#a6e22e
+    fgp=#f91992
+    previewbg=#125849
+    previewfg=#fc6633
+    info=#f5f4f1
+    border=#a1efe4
+    spinner=#f4bf75
+    hl=#66d9ef
+    hlp=#66d9af
+    pointer=#ae81ff
+    prompt=#f8a8f2
+    gutter=#383830
+    marker=#fc6633
+}
+
+paper_colors() {
+    header=#d7875f
+    bg=#1c1c1c
+    bgp=#5f8787
+    fg=#5fafd7
+    fgp=#1ae00f
+    previewbg=#585858
+    previewfg=#ffaf00
+    info=#afd700
+    border=#af005f
+    spinner=#00afaf
+    hl=#d7af5f
+    hlp=#fa09d0
+    pointer=#af005f
+    prompt=#808080
+    gutter=#4c8787
+    marker=#af005f
+}
+
+# set colors
+case $style in
+    light | l)
+		light_colors
+		;;
+    mono | m)
+        mono_colors
+		;;
+    paper | p)
+        paper_colors
+		;; 
+	*)
+		default_colors
+		;;
+esac
+
+paru -Qq | fzf --preview 'paru -Qil {1}' --reverse --margin $margin% \
+--header=$'╔════════════════════╗\n║░   lsparu-query   ░║\n╚════════════════════╝\
+installed packages:\n\n' \
+--pointer='▓' --prompt='' --border=sharp \
+--bind 'ctrl-w:toggle-preview-wrap' \
+--bind 'ctrl-p:toggle-preview' \
+--bind 'ctrl-l:clear-query' \
+--bind 'shift-right:preview-page-down' \
+--bind 'shift-left:preview-page-up' \
+--bind 'enter:abort' \
+--color='bg:'$bg,'bg+:'$bgp,'info:'$info,'border:'$border,'spinner:'$spinner \
+--color='hl:'$hl,'fg:'$fg,'fg+:'$fgp,'pointer:'$pointer,'prompt:'$prompt,'header:'$header \
+--color='hl+:'$hlp,'marker:'$marker,'preview-bg:'$previewbg,'preview-fg:'$previewfg
