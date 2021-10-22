@@ -2,7 +2,7 @@
 
 A [fzf](https://github.com/junegunn/fzf) TUI for [paru](https://github.com/Morganamilo/paru)
 
-Latest Release 0.0.1
+Latest Release 1.0.0
 
 # Usage
 

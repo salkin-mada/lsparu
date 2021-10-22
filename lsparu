@@ -28,7 +28,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-version=0.0.1
+version=1.0.0
 identity=lsparu # not used, you can simultaneously run as many lsparu's as you like
 usage="usage: lsparu -sqrmfy {args} -hv"
 

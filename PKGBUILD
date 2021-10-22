@@ -1,6 +1,6 @@
 # Maintainer: Niklas Adam <salkinmada@protonmail.com>
 pkgname=lsparu
-pkgver=0.0.1
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="A fzf TUI for paru"
 arch=("any")
